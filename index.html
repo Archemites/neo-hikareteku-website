@@ -1,0 +1,1969 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hikareteku RPG 3E — Wiki Interativa & Ficha</title>
+
+    <!-- Google Fonts: Noto Serif JP & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif+JP:wght@700;900&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- SCOUTER CRT OVERLAY SYSTEM (decorative, non-interactive) -->
+    <div id="crt-frame" aria-hidden="true">
+        <div id="crt-phosphor" aria-hidden="true"></div>
+        <div id="crt-scanlines" aria-hidden="true"></div>
+        <div id="crt-vignette" aria-hidden="true"></div>
+        <div id="crt-flicker" aria-hidden="true"></div>
+        <div id="crt-jitter" aria-hidden="true"></div>
+        <div id="crt-noise" aria-hidden="true"></div>
+        <div id="crt-poweron" aria-hidden="true"></div>
+    </div>
+    <div id="app-container">
+        <!-- HEADER & NAVIGATION -->
+        <header>
+            <div class="header-container">
+                <div class="logo-area" onclick="tabSwitch('core')">
+                    <div class="logo-icon">⚡</div>
+                    <div class="logo-text">
+                        <h1>Hikareteku RPG</h1>
+                        <span>3ª Edição &middot; Wiki Interativa</span>
+                    </div>
+                </div>
+
+                <!-- SEARCH BAR -->
+                <div class="search-wrapper">
+                    <div class="search-input-container">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" id="search-field" class="search-field"
+                            placeholder="Buscar termo, raça, técnica ou sigla..." autocomplete="off">
+                        <button id="search-clear" class="search-clear">&times;</button>
+                    </div>
+                    <!-- Floating Results Panel -->
+                    <div id="search-results-panel" class="search-results-panel"></div>
+                </div>
+
+                <!-- SFX TOGGLE -->
+                <button id="sfx-toggle" class="sfx-toggle" onclick="toggleSfx()"
+                    title="Ativar/Desativar efeitos sonoros do scouter" aria-pressed="false">
+                    <span id="sfx-icon">🔇</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- KI BAR -->
+        <div id="ki-bar-wrapper">
+            <div id="ki-bar"></div>
+        </div>
+
+        <!-- TABS NAVIGATION -->
+        <div class="nav-tabs-container">
+            <nav class="nav-tabs">
+                <button class="tab-btn active" id="btn-tab-core" onclick="tabSwitch('core')">⚔ Core Engine</button>
+                <button class="tab-btn" id="btn-tab-racas" onclick="tabSwitch('racas')">🧬 Raças</button>
+                <button class="tab-btn" id="btn-tab-tecnicas" onclick="tabSwitch('tecnicas')">✦ Técnicas</button>
+                <button class="tab-btn" id="btn-tab-forja" onclick="tabSwitch('forja')">🛠️ Forjar Técnica</button>
+                <button class="tab-btn" id="btn-tab-progressao" onclick="tabSwitch('progressao')">📈 Progressão</button>
+                <button class="tab-btn" id="btn-tab-transformacoes" onclick="tabSwitch('transformacoes')">🔥
+                    Transformações</button>
+                <button class="tab-btn" id="btn-tab-ficha" onclick="tabSwitch('ficha')">📋 Minha Ficha ⭐</button>
+            </nav>
+        </div>
+
+        <!-- MAIN PANELS -->
+        <main>
+
+            <!-- ABA 1: CORE ENGINE -->
+            <div id="tab-core" class="tab-panel active">
+                <h2 class="section-title" data-searchable>Motor Principal (Core Engine)</h2>
+
+                <div class="grid-2x2">
+                    <!-- 1.1 Sistema de Dados -->
+                    <div class="card" id="core-dice" data-searchable>
+                        <div class="card-header-with-badge">
+                            <h3 class="card-title">🎲 O Sistema de Dados (d10)</h3>
+                            <span class="badge">DADOS DE TENSÃO</span>
+                        </div>
+                        <p>O jogo utiliza exclusivamente dados de 10 faces (d10). Em vez de somar modificadores fixos,
+                            seus <strong>Atributos</strong> definem a quantidade de dados que você rola na mesa.</p>
+
+                        <h4 style="margin: 1rem 0 0.5rem 0; color: var(--color-ki-gold); font-size: 0.95rem;">Como
+                            Funciona o Teste:</h4>
+                        <ol style="margin-left: 1.2rem; font-size: 0.9rem;">
+                            <li>Identifique o Atributo necessário para a ação.</li>
+                            <li>Pegue uma quantidade de d10 igual ao valor do Atributo.</li>
+                            <li>Role todos os dados.</li>
+                            <li>Conte os <strong>Sucessos</strong>: qualquer dado que cair <strong>5, 6, 7, 8, 9 ou
+                                    10</strong>. Resultados de 1 a 4 são descartados.</li>
+                        </ol>
+
+                        <h4 style="margin: 1.5rem 0 0.5rem 0; color: var(--color-ki-gold); font-size: 0.95rem;">Tabela
+                            de Dificuldades (DF):</h4>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Dificuldade</th>
+                                        <th>Sucessos Req.</th>
+                                        <th>Exemplo de Ação</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>DF 1: Fácil</strong></td>
+                                        <td>1 Sucesso</td>
+                                        <td>Tarefas básicas de combate</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>DF 2: Médio</strong></td>
+                                        <td>2 Sucessos</td>
+                                        <td>Superar uma defesa padrão</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>DF 4: Difícil</strong></td>
+                                        <td>4 Sucessos</td>
+                                        <td>Reagir a um ataque surpresa</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>DF 6: Heroico</strong></td>
+                                        <td>6 Sucessos</td>
+                                        <td>Parar um feixe de Ki com as mãos nuas</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>DF 8: Lendário</strong></td>
+                                        <td>8 Sucessos</td>
+                                        <td>Alcançar o poder de um Deus</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="highlight-box pulse" id="explodir-ki">
+                            <strong style="color: var(--color-ki-gold);">💥 Regra de Explosão de Ki:</strong>
+                            <p style="font-size: 0.9rem; margin-top: 0.25rem;">Sempre que um d10 cair no número
+                                <strong>10 natural</strong>, ele conta como 1 Sucesso E você rola esse mesmo dado
+                                novamente. Se cair outro 10, adiciona mais um sucesso e rola de novo. Não há limites
+                                para a explosão de ki!
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 1.3 Recursos Vitais -->
+                    <div class="card" id="core-resources" data-searchable>
+                        <div class="card-header-with-badge">
+                            <h3 class="card-title">❤️ Recursos Vitais (Status)</h3>
+                            <span class="badge badge-cyan">BARRAS DE STATUS</span>
+                        </div>
+                        <p>Em vez de cálculos complexos, a integridade física e o fôlego energético do seu guerreiro são
+                            definidos de forma limpa a partir de seus atributos básicos:</p>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem;">
+                            <div class="attr-card" style="--attr-color: var(--color-vig)">
+                                <div class="attr-sigla">PV</div>
+                                <div class="attr-name">Pontos de Vida</div>
+                                <div class="attr-desc" style="margin-top: 0.5rem;"><strong>Fórmula:</strong><br><span
+                                        style="font-family: var(--font-mono); font-size: 0.95rem; color: var(--color-ki-gold);">VIGOR
+                                        &times; 10</span></div>
+                                <p class="subtext" style="margin-top: 0.5rem; text-align: left;">Mede o dano biológico
+                                    suportável antes do desmaio ou morte.</p>
+                            </div>
+                            <div class="attr-card" style="--attr-color: var(--color-tec)">
+                                <div class="attr-sigla">RK</div>
+                                <div class="attr-name">Reserva de Ki</div>
+                                <div class="attr-desc" style="margin-top: 0.5rem;"><strong>Fórmula:</strong><br><span
+                                        style="font-family: var(--font-mono); font-size: 0.95rem; color: var(--color-ki-gold);">TÉCNICA
+                                        &times; 5</span></div>
+                                <p class="subtext" style="margin-top: 0.5rem; text-align: left;">O combustível para
+                                    técnicas especiais. Se zerar, você entra em Exaustão.</p>
+                            </div>
+                        </div>
+
+                        <h4 style="margin: 1.5rem 0 0.5rem 0; color: var(--color-ki-gold); font-size: 0.95rem;">O
+                            Multiplicador de Nível (O Output Oculto)</h4>
+                        <p style="font-size: 0.9rem;">Para manter a escala imensa de destruição sem inflar a quantidade
+                            de dados jogados, o Nível do personagem funciona como um multiplicador direto do dano final:
+                        </p>
+                        <div class="highlight-box" style="margin: 0.5rem 0 0 0;">
+                            <p
+                                style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--color-divine-cyan);">
+                                Dano = (Sucessos do Teste &times; Valor Base) &times; Nível do Personagem</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1.2 Os 5 Atributos -->
+                <div id="core-attributes" data-searchable style="margin-bottom: 2rem;">
+                    <h3 class="card-title" style="font-size: 1.4rem; margin-bottom: 0.5rem;">🧬 Os 5 Atributos Base</h3>
+                    <p class="subtext" style="margin-bottom: 1rem;">Todos os personagens iniciam com 1 em cada atributo
+                        na criação e recebem 12 pontos para distribuir (limite máximo de 5 na criação, limite de 10 na
+                        campanha).</p>
+
+                    <div class="attr-grid">
+                        <div class="attr-card" style="--attr-color: var(--color-pod)" id="sigla-pod">
+                            <div class="attr-sigla">POD</div>
+                            <div class="attr-name">Poder</div>
+                            <div class="attr-desc">A força muscular e cinética bruta de seus socos, arremessos e
+                                interações físicas com o cenário.</div>
+                        </div>
+                        <div class="attr-card" style="--attr-color: var(--color-vel)" id="sigla-vel">
+                            <div class="attr-sigla">VEL</div>
+                            <div class="attr-name">Velocidade</div>
+                            <div class="attr-desc">Rapidez e reflexos. Usado para definir a iniciativa e a quantidade de
+                                Pontos de Ação (PA) por turno.</div>
+                        </div>
+                        <div class="attr-card" style="--attr-color: var(--color-tec)" id="sigla-tec">
+                            <div class="attr-sigla">TEC</div>
+                            <div class="attr-name">Técnica</div>
+                            <div class="attr-desc">Controle de energia e refino marcial. Rolado para feixes de Ki e para
+                                calcular a Reserva de Ki (RK).</div>
+                        </div>
+                        <div class="attr-card" style="--attr-color: var(--color-vig)" id="sigla-vig">
+                            <div class="attr-sigla">VIG</div>
+                            <div class="attr-name">Vigor</div>
+                            <div class="attr-desc">Resistência física e densidade corporal. Usado para Bloquear e para
+                                calcular os Pontos de Vida (PV).</div>
+                        </div>
+                        <div class="attr-card" style="--attr-color: var(--color-ins)" id="sigla-ins">
+                            <div class="attr-sigla">INS</div>
+                            <div class="attr-name">Instinto</div>
+                            <div class="attr-desc">Reflexos involuntários, percepção e habilidade de Sentir o Ki ou
+                                realizar Esquivas rápidas.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1.4 Combate: Momentum e Reações -->
+                <div class="card" id="core-combat" data-searchable>
+                    <div class="card-header-with-badge">
+                        <h3 class="card-title">⚔ Combate Ativo: Ações e Reações</h3>
+                        <span class="badge">MOMENTUM</span>
+                    </div>
+                    <p>O combate no Hikareteku é dinâmico. Toda rodada exige iniciativa e gastos de Pontos de Ação (PA)
+                        obtidos a partir de testes ativos de <strong>VELOCIDADE</strong>.</p>
+
+                    <h4 style="margin: 1.5rem 0 0.5rem 0; color: var(--color-ki-gold); font-size: 0.95rem;">Ações de
+                        Turno Ativo (Custo em PA):</h4>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Ação</th>
+                                    <th>Custo</th>
+                                    <th>Atributo</th>
+                                    <th>Efeito Principal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Combo Físico</strong></td>
+                                    <td>1 PA</td>
+                                    <td>[POD] vs Defesa</td>
+                                    <td>Golpes físicos rápidos corpo a corpo.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Rajada de Ki</strong></td>
+                                    <td>1 PA</td>
+                                    <td>[TEC] vs Defesa</td>
+                                    <td>Disparos de energia concentrada a distância.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Carregar Ki</strong></td>
+                                    <td>1 PA</td>
+                                    <td>Automático</td>
+                                    <td>Recupera +3 pontos de Reserva de Ki (RK).</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4 style="margin: 1.5rem 0 0.5rem 0; color: var(--color-ki-gold); font-size: 0.95rem;">Reações
+                        Ativas (Defensor gasta 1 PA):</h4>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Reação</th>
+                                    <th>Atributo</th>
+                                    <th>Efeito Especial</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Esquivar</strong></td>
+                                    <td>[INSTINTO]</td>
+                                    <td>Seus sucessos anulam os do ataque. Vencer por <strong>3+ sucessos</strong> ativa
+                                        um <strong>Z-Vanish</strong> (teletransporte imediato para as costas do
+                                        atacante).</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Bloquear</strong></td>
+                                    <td>[VIGOR]</td>
+                                    <td>Reduz o dano final recebido pela metade, mas consome obrigatoriamente <strong>1
+                                            RK</strong> devido ao esforço.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Colidir (Contra-atacar)</strong></td>
+                                    <td>[TÉCNICA]</td>
+                                    <td>Válido contra ataques de Ki. Você gasta 1 PA e a RK da técnica para disparar de
+                                        volta, iniciando uma <strong>Disputa de Feixes</strong> de Ki na mesa.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- SUB-SEÇÃO: TIPOS DE KI -->
+                <div id="tecnicas-tipos-ki" data-searchable>
+                    <h3 class="card-title"
+                        style="font-size: 1.4rem; margin-bottom: 0.5rem; border-top: 1px solid var(--color-border); padding-top: 2rem;">
+                        🌈 Os 7 Tipos de Ki</h3>
+                    <p class="subtext" style="margin-bottom: 1.5rem;">A natureza da alma do seu guerreiro impõe bônus e
+                        penalidades reais no fluxo de combate.</p>
+                    <div class="ki-types-grid">
+                        <div class="card ki-type-card" style="--ki-color: #f1c40f;">
+                            <h4><span class="ki-aura-preview"></span>Ki Benigno / Purificado</h4>
+                            <p style="font-size:0.8rem;margin-top:0.5rem;color:var(--color-soft-text);">Aura Amarela,
+                                Rosa-Claro ou Branca. Reduz custos de transformações em <strong>-1 RK/rodada</strong>
+                                (mín.1). Técnicas defensivas +1 dado em [TEC].</p>
+                        </div>
+                        <div class="card ki-type-card" style="--ki-color: #9b59b6;">
+                            <h4><span class="ki-aura-preview"></span>Ki Maligno</h4>
+                            <p style="font-size:0.8rem;margin-top:0.5rem;color:var(--color-soft-text);">Aura Roxo até
+                                Preto-Vermelho. Ao carregar Ki, adjacentes resistem com [TEC] ou sofrem Intimidação (-2
+                                sucessos). Oferece +2 dados de rastreio [INS] a inimigos.</p>
+                        </div>
+                        <div class="card ki-type-card" style="--ki-color: #2ecc71;">
+                            <h4><span class="ki-aura-preview"></span>Ki Primitivo</h4>
+                            <p style="font-size:0.8rem;margin-top:0.5rem;color:var(--color-soft-text);">Aura Esverdeada
+                                (Broly). Soma modificador bruto de [PODER] ao dano de feixes/rajadas. Perde <strong>-1
+                                    TEC</strong> em combate pela fúria indomável.</p>
+                        </div>
+                        <div class="card ki-type-card" style="--ki-color: #e74c3c;">
+                            <h4><span class="ki-aura-preview"></span>Ki Divino</h4>
+                            <p style="font-size:0.8rem;margin-top:0.5rem;color:var(--color-soft-text);">Aura Vermelha ou
+                                Rosé. Impõe <strong>-2 em [TEC]</strong> para inimigos sem ki divino. Indetectável por
+                                [INS] (Sentir Ki) comum.</p>
+                        </div>
+                        <div class="card ki-type-card" style="--ki-color: #1abc9c;">
+                            <h4><span class="ki-aura-preview"></span>Ki Negativo</h4>
+                            <p style="font-size:0.8rem;margin-top:0.5rem;color:var(--color-soft-text);">Inversão
+                                cromática. Cura PV = <strong>50% do dano de Ki</strong> causado. Recebe <strong>dano
+                                    dobrado</strong> de Ki Benigno ou Purificado.</p>
+                        </div>
+                        <div class="card ki-type-card" style="--ki-color: #3498db;">
+                            <h4><span class="ki-aura-preview"></span>Ki Mágico</h4>
+                            <p style="font-size:0.8rem;margin-top:0.5rem;color:var(--color-soft-text);">Aura
+                                transparente/multicor. Ilusão cromática: adversários sofrem <strong>-1 dado</strong> em
+                                [TEC] ou [POD] pela incerteza visual.</p>
+                        </div>
+                        <div class="card ki-type-card" style="--ki-color: #95a5a6;">
+                            <h4><span class="ki-aura-preview"></span>Ki Neutro</h4>
+                            <p style="font-size:0.8rem;margin-top:0.5rem;color:var(--color-soft-text);">Aura padrão
+                                mutável. Estável, balanceado. Sem bônus ou penalidades — a base mais segura de treino.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUB-SEÇÃO: FORJA DE TÉCNICAS -->
+                <div id="tecnicas-forja" data-searchable>
+                    <h3 class="card-title"
+                        style="font-size: 1.4rem; margin-bottom: 0.5rem; border-top: 1px solid var(--color-border); padding-top: 2rem;">
+                        🛠️ Guia de Forja de Técnicas Autorais</h3>
+                    <p class="subtext" style="margin-bottom: 1.5rem;">Crie técnicas customizadas seguindo a estrutura
+                        matemática de balanceamento do jogo.</p>
+                    <div class="accordion-item"><button class="accordion-header"
+                            onclick="toggleAccordion(this)"><span>Passo 1: Natureza da Técnica</span><span
+                                class="accordion-icon">▼</span></button>
+                        <div class="accordion-content">
+                            <p>Escolha a fonte:</p>
+                            <ul style="margin:0.5rem 0 0.5rem 1rem;">
+                                <li><strong>Física:</strong> [PODER]/[VIGOR] — golpes, buffs.</li>
+                                <li><strong>Energia:</strong> [TÉCNICA] — feixes, barreiras.</li>
+                                <li><strong>Espiritual:</strong> [TEC]/[INS] — selamento, ilusões.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="accordion-item"><button class="accordion-header"
+                            onclick="toggleAccordion(this)"><span>Passo 2: Custo e Impacto (RK)</span><span
+                                class="accordion-icon">▼</span></button>
+                        <div class="accordion-content">
+                            <ul style="margin:0.5rem 0 0.5rem 1rem;">
+                                <li><strong>Baixo (1-2 RK):</strong> Dano base 5/sucesso. Efeito leve.</li>
+                                <li><strong>Médio (3-5 RK):</strong> Dano base 10/sucesso. Efeito moderado.</li>
+                                <li><strong>Proibido (6+ RK):</strong> Dano base 20/sucesso. Efeito drástico.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="accordion-item"><button class="accordion-header"
+                            onclick="toggleAccordion(this)"><span>Passo 3: Efeitos Especiais</span><span
+                                class="accordion-icon">▼</span></button>
+                        <div class="accordion-content">
+                            <ul style="margin:0.5rem 0 0.5rem 1rem;">
+                                <li><strong>Perfuração:</strong> Ignora metade do VIGOR. Requer 1 rodada.</li>
+                                <li><strong>Explosão:</strong> 25% dano mesmo esquivando.</li>
+                                <li><strong>Paralisia:</strong> Alvo perde PA na próxima rodada.</li>
+                                <li><strong>Rastreador:</strong> Vantagem nos testes de acerto.</li>
+                                <li><strong>Multiplier:</strong> Eleva temporariamente o Nível Oculto.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="accordion-item"><button class="accordion-header"
+                            onclick="toggleAccordion(this)"><span>Passo 4: Modelos Práticos</span><span
+                                class="accordion-icon">▼</span></button>
+                        <div class="accordion-content">
+                            <div
+                                style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-top:0.5rem;">
+                                <div class="card" style="padding:1rem;background:rgba(10,10,15,0.6);">
+                                    <h5 style="color:var(--color-ki-gold);">🔴 Modelo A: Kaioken</h5>
+                                    <p style="font-size:0.8rem;margin-top:0.25rem;">Suporte Físico (4 RK/rodada).
+                                        [VIGOR]. Cada sucesso +1 Nível Oculto. Perde PV = 50% dos sucessos por desgaste.
+                                    </p>
+                                </div>
+                                <div class="card" style="padding:1rem;background:rgba(10,10,15,0.6);">
+                                    <h5 style="color:var(--color-ki-gold);">🧠 Modelo B: Marca Majin</h5>
+                                    <p style="font-size:0.8rem;margin-top:0.25rem;">Controle Espiritual (8 RK). [TEC] vs
+                                        [INS]. Alvo controlado; quebra por [TEC] cada turno.</p>
+                                </div>
+                                <div class="card" style="padding:1rem;background:rgba(10,10,15,0.6);">
+                                    <h5 style="color:var(--color-ki-gold);">🛡️ Modelo C: Escudo de Ki</h5>
+                                    <p style="font-size:0.8rem;margin-top:0.25rem;">Defensivo (3 RK). [TÉCNICA] como
+                                        reação. Cada sucesso anula 10 de dano.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item"><button class="accordion-header"
+                            onclick="toggleAccordion(this)"><span>Passo 5: Refinamento e Treinamento</span><span
+                                class="accordion-icon">▼</span></button>
+                        <div class="accordion-content">
+                            <p>Após dominar a técnica em batalhas, teste Inteligência/Técnica (DF 4) entre sagas:</p>
+                            <ul style="margin:0.5rem 0 0.5rem 1rem;">
+                                <li><strong>Nível 2:</strong> Reduz custo em <strong>-1 RK</strong> (mín.1).</li>
+                                <li><strong>Nível 3:</strong> +5 dano base ou novo Efeito Especial.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ABA 2: RAÇAS -->
+            <div id="tab-racas" class="tab-panel">
+                <h2 class="section-title" data-searchable>Espécies de Guerreiros (Raças)</h2>
+                <p class="subtext" style="margin-bottom: 2rem;">Escolha a biologia espiritual do seu personagem. Cada
+                    espécie oferece bônus de atributos iniciais e uma mecânica de combate exclusiva.</p>
+
+                <div class="race-grid">
+                    <!-- Humano -->
+                    <div class="card race-card" id="race-humano" data-searchable
+                        style="border-color: var(--color-divine-cyan);">
+                        <div class="card-header-with-badge">
+                            <h3 class="card-title">🧑 Humanos</h3>
+                            <span class="badge badge-cyan">SUPORTE / ESTRATÉGICO</span>
+                        </div>
+                        <div class="race-badges">
+                            <span class="badge">+1 TEC</span>
+                            <span class="badge">+1 INS</span>
+                        </div>
+                        <p class="subtext">A espécie mais versátil da Terra. Possuem uma inteligência tática e
+                            capacidade de adaptação ímpar que compensa o poder bruto inferior.</p>
+
+                        <div class="race-trait">
+                            <div class="race-trait-title">✨ Adaptabilidade Marcial</div>
+                            <p style="font-size: 0.85rem; color: var(--color-body-text);">Você gasta <strong>20% menos
+                                    Pontos de Treino (PT)</strong> para aprender ou criar técnicas. Além disso, uma vez
+                                por combate, você pode rerolar todos os dados falhos (1 a 6) de qualquer teste de [TEC].
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Saiyajin -->
+                    <div class="card race-card" id="race-saiyajin" data-searchable
+                        style="border-color: var(--color-pod);">
+                        <div class="card-header-with-badge">
+                            <h3 class="card-title">🐒 Saiyajins</h3>
+                            <span class="badge"
+                                style="color: var(--color-pod); border-color: rgba(255, 90, 54, 0.3); background: rgba(255, 90, 54, 0.1);">OFENSIVO
+                                BRUTO</span>
+                        </div>
+                        <div class="race-badges">
+                            <span class="badge">+1 POD</span>
+                            <span class="badge">+1 VIG</span>
+                        </div>
+                        <p class="subtext">A raça guerreira por excelência. Dotados de uma fúria instintiva e de caudas
+                            que revelam sua herança primitiva.</p>
+
+                        <div class="race-trait">
+                            <div class="race-trait-title">💥 Sangue de Guerreiro (Zenkai)</div>
+                            <p style="font-size: 0.85rem; color: var(--color-body-text);">Quando seus PV caírem para
+                                <strong>menos de 25%</strong>, você ativa o Zenkai: ganha <strong>+1d10 em todas as
+                                    rolagens</strong> até o fim da cena. Seus multiplicadores pós-recuperação aumentam
+                                rapidamente.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Namekuseijin -->
+                    <div class="card race-card" id="race-namekuseijin" data-searchable
+                        style="border-color: var(--color-vig);">
+                        <div class="card-header-with-badge">
+                            <h3 class="card-title">👽 Namekuseijins</h3>
+                            <span class="badge"
+                                style="color: var(--color-vig); border-color: rgba(46, 204, 113, 0.3); background: rgba(46, 204, 113, 0.1);">DEFENSIVO
+                                / TANQUE</span>
+                        </div>
+                        <div class="race-badges">
+                            <span class="badge">+1 VIG</span>
+                            <span class="badge">+1 INS</span>
+                        </div>
+                        <p class="subtext">Seres pacíficos do planeta Namek, dotados de capacidades regenerativas
+                            impressionantes e grande conexão mística.</p>
+
+                        <div class="race-trait">
+                            <div class="race-trait-title">🟢 Regeneração Celular</div>
+                            <p style="font-size: 0.85rem; color: var(--color-body-text);">Como ação livre em seu turno,
+                                gaste <strong>2 RK</strong> para curar PV igual a <strong>[VIGOR] &times; 2</strong>.
+                                Você é completamente imune a penalidades de membros perdidos ou fraturados.</p>
+                        </div>
+                    </div>
+
+                    <!-- Androide -->
+                    <div class="card race-card" id="race-androide" data-searchable
+                        style="border-color: var(--color-ins);">
+                        <div class="card-header-with-badge">
+                            <h3 class="card-title">🤖 Androides</h3>
+                            <span class="badge"
+                                style="color: var(--color-ins); border-color: rgba(155, 89, 182, 0.3); background: rgba(155, 89, 182, 0.1);">UTILIDADE
+                                / SUSTENTO</span>
+                        </div>
+                        <div class="race-badges">
+                            <span class="badge">+1 VEL</span>
+                            <span class="badge">+1 POD</span>
+                        </div>
+                        <p class="subtext">Criações robóticas ou ciborgues modificados. Não emitem energia orgânica
+                            tradicional, impossibilitando sua detecção comum.</p>
+
+                        <div class="race-trait">
+                            <div class="race-trait-title">⚙️ Circuito Oculto</div>
+                            <p style="font-size: 0.85rem; color: var(--color-body-text); margin-bottom: 0.5rem;">Você é
+                                totalmente invisível para testes de Sentir Ki. Escolha uma variante:</p>
+                            <ul style="font-size: 0.8rem; margin-left: 1rem; color: var(--color-body-text);">
+                                <li><strong>Energia Infinita:</strong> Regenera <strong>+1 RK</strong> no início de cada
+                                    um dos seus turnos.</li>
+                                <li><strong>Absorção:</strong> Bloquear com sucesso um feixe de Ki rouba e adiciona os
+                                    pontos de RK do atacante à sua reserva.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Glind -->
+                    <div class="card race-card" id="race-glind" data-searchable
+                        style="border-color: var(--color-ki-gold);">
+                        <div class="card-header-with-badge">
+                            <h3 class="card-title">😈 Glinds</h3>
+                            <span class="badge">VELOZ / OFENSIVO</span>
+                        </div>
+                        <div class="race-badges">
+                            <span class="badge">+1 VEL</span>
+                            <span class="badge">+1 TEC</span>
+                        </div>
+                        <p class="subtext">Demônios nativos do plano cósmico de Makai. Possuem corpos extremamente
+                            adaptáveis a pressões e vácuos espaciais.</p>
+
+                        <div class="race-trait">
+                            <div class="race-trait-title">👁️ Sobrevivência Extrema</div>
+                            <p style="font-size: 0.85rem; color: var(--color-body-text);">Sobrevive no vácuo espacial.
+                                Ao desferir um acerto crítico (rolar <strong>dois ou mais 10 naturais</strong> no mesmo
+                                teste), o inimigo perde <strong>1 PA</strong> no próximo turno devido ao impacto
+                                doloroso.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ABA 3: TÉCNICAS -->
+            <div id="tab-tecnicas" class="tab-panel">
+                <h2 class="section-title" data-searchable>Catálogo de Técnicas & Forja</h2>
+
+                <!-- FILTERS -->
+                <div class="filters-panel">
+                    <div class="filter-group">
+                        <div class="filter-label">Filtrar por Mestre:</div>
+                        <div class="filter-options" id="filter-mestre">
+                            <button class="filter-btn active" data-filter-value="all" onclick="setFilter('mestre', 'all')">Todos</button>
+                            <button class="filter-btn" data-filter-value="kame" onclick="setFilter('mestre', 'kame')">Mestre Kame</button>
+                            <button class="filter-btn" data-filter-value="kami" onclick="setFilter('mestre', 'kami')">Kami-Sama</button>
+                            <button class="filter-btn" data-filter-value="shen" onclick="setFilter('mestre', 'shen')">Mestre Shen</button>
+                            <button class="filter-btn" data-filter-value="tenshinhan" onclick="setFilter('mestre', 'tenshinhan')">Tenshinhan</button>
+                            <button class="filter-btn" data-filter-value="yamcha" onclick="setFilter('mestre', 'yamcha')">Yamcha</button>
+                            <button class="filter-btn" data-filter-value="kaioh-norte" onclick="setFilter('mestre', 'kaioh-norte')">Kaioh do
+                                Norte</button>
+                            <button class="filter-btn" data-filter-value="kaioh-sul" onclick="setFilter('mestre', 'kaioh-sul')">Kaioh do Sul</button>
+                            <button class="filter-btn" data-filter-value="kaioshin" onclick="setFilter('mestre', 'kaioshin')">Kaioshin
+                                (Shin)</button>
+                            <button class="filter-btn" data-filter-value="ro-kaioshin" onclick="setFilter('mestre', 'ro-kaioshin')">Ro Kaioshin</button>
+                            <button class="filter-btn" data-filter-value="kuririn" onclick="setFilter('mestre', 'kuririn')">Kuririn</button>
+                            <button class="filter-btn" data-filter-value="auto-didatismo"
+                                onclick="setFilter('mestre', 'auto-didatismo')">Auto-Didatismo</button>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                        <div class="filter-group">
+                            <div class="filter-label">Filtrar por Tipo:</div>
+                            <div class="filter-options" id="filter-tipo">
+                                <button class="filter-btn active" data-filter-value="all" onclick="setFilter('tipo', 'all')">Todos</button>
+                                <button class="filter-btn" data-filter-value="ofensiva" onclick="setFilter('tipo', 'ofensiva')">Ofensiva</button>
+                                <button class="filter-btn" data-filter-value="defensiva" onclick="setFilter('tipo', 'defensiva')">Defensiva</button>
+                                <button class="filter-btn" data-filter-value="controle" onclick="setFilter('tipo', 'controle')">Controle</button>
+                                <button class="filter-btn" data-filter-value="suporte" onclick="setFilter('tipo', 'suporte')">Suporte</button>
+                                <button class="filter-btn" data-filter-value="transformacao"
+                                    onclick="setFilter('tipo', 'transformacao')">Transformação</button>
+                                <button class="filter-btn" data-filter-value="final" onclick="setFilter('tipo', 'final')">Final</button>
+                            </div>
+                        </div>
+                        <div class="filter-group">
+                            <div class="filter-label">Filtrar por Custo:</div>
+                            <div class="filter-options" id="filter-custo">
+                                <button class="filter-btn active" data-filter-value="all" onclick="setFilter('custo', 'all')">Todos</button>
+                                <button class="filter-btn" data-filter-value="baixo" onclick="setFilter('custo', 'baixo')">Baixo (1-2 RK)</button>
+                                <button class="filter-btn" data-filter-value="medio" onclick="setFilter('custo', 'medio')">Médio (3-5 RK)</button>
+                                <button class="filter-btn" data-filter-value="proibido" onclick="setFilter('custo', 'proibido')">Proibido (6+
+                                    RK)</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TECHNIQUES GRID -->
+                <div class="techniques-grid" id="techniques-list">
+                    <!-- Kamehameha -->
+                    <div class="card tech-card" data-searchable data-mestre="kame" data-tipo="ofensiva"
+                        data-custo="medio" style="--tech-border: #f39c12;">
+                        <div class="card-header-with-badge">
+                            <h3 class="card-title">💥 Kamehameha</h3>
+                            <span class="tech-cost">4 RK (Médio)</span>
+                        </div>
+                        <div class="tech-stats">
+                            <span>Mestre Kame</span> &bull; <span>Ofensiva</span> &bull; <span>Teste: [TEC]</span>
+                        </div>
+                        <p style="font-size: 0.85rem;">Dano base 10 por sucesso. Se carregado por 1 turno, ganha +2
+                            dados na rolagem e efeito de Explosão (causa 25% de dano mesmo se o alvo esquivar).</p>
+                    </div>
+
+                    <!-- Zanzoken -->
+                    <div class="card tech-card" data-searchable data-mestre="kame" data-tipo="defensiva"
+                        data-custo="baixo" style="--tech-border: #2ecc71;">
+                        <div class="card-header-with-badge">
+                            <h3 class="card-title">👤 Zanzoken</h3>
+                            <span class="tech-cost">2 RK (Baixo)</span>
+                        </div>
+                        <div class="tech-stats">
+                            <span>Mestre Kame</span> &bull; <span>Defensiva / Reação</span> &bull; <span>Teste:
+                                [INS]</span>
+                        </div>
+                        <p style="font-size: 0.85rem;">Imagem Remanescente. Seus sucessos de esquiva anulam sucessos do
+                            atacante. Se vencer por 3+ sucessos, realiza um Z-Vanish e aparece nas costas.</p>
+                    </div>
+
+                    <!-- Mafuba -->
+                    <div class="card tech-card" data-searchable data-mestre="kame" data-tipo="controle"
+                        data-custo="proibido" style="--tech-border: #e74c3c;">
+                        <div class="card-header-with-badge">
+                            <h3 class="card-title">🏺 Mafuba</h3>
+                            <span class="tech-cost">8 RK (Proibido)</span>
+                        </div>
+                        <div class="tech-stats">
+                            <span>Mestre Kame</span> &bull; <span>Controle</span> &bull; <span>Teste: [TEC] vs
+                                [VIG]</span>
+                        </div>
+                        <p style="font-size: 0.85rem;">Onda Seladora. Sela o alvo em um recipiente se vencer o teste.
+                            Uma falha crítica causa dano vital massivo ao próprio usuário.</p>
+                    </div>
+
+                    <!-- Sentir Ki Avançado -->
+                    <div class="card tech-card" data-searchable data-mestre="kami" data-tipo="suporte"
+                        data-custo="baixo" style="--tech-border: #2ecc71;">
+                        <div class="card-header-with-badge">
+                            <h3 class="card-title">👁️ Sentir Ki Avançado</h3>
+                            <span class="tech-cost">1 RK (Baixo)</span>
+                        </div>
+                        <div class="tech-stats">
+                            <span>Kami-Sama</span> &bull; <span>Suporte / Passiva</span> &bull; <span>Teste:
+                                [INS]</span>
+                        </div>
+                        <p style="font-size: 0.85rem;">Detecta o Nível Oculto exato de qualquer ser em cena. Ignora
+                            completamente camuflagens de Ki mundanas.</p>
+                    </div>
+
+                    <!-- Olhar Divino -->
+                    <div class="card tech-card" data-searchable data-mestre="kami" data-tipo="controle"
+                        data-custo="baixo" style="--tech-border: #2ecc71;">
+                        <div class="card-header-with-badge">
+                            <h3 class="card-title">✨ Olhar Divino</h3>
+                            <span class="tech-cost">2 RK (Baixo)</span>
+                        </div>
+                        <div class="tech-stats">
+                            <span>Kami-Sama</span> &bull; <span>Controle</span> &bull; <span>Teste: [TEC] vs
+                                [INS]</span>
+                        </div>
+                        <p style="font-size: 0.85rem;">O alvo perde 1 Ponto de Ação (PA) na próxima rodada caso você
+                            vença a disputa de atributos.</p>
+                    </div>
+
+                    <!-- Dodonpa -->
+                    <div class="card tech-card" data-searchable data-mestre="shen" data-tipo="ofensiva"
+                        data-custo="baixo" style="--tech-border: #2ecc71;">
+                        <div class="card-header-with-badge">
+                            <h3 class="card-title">👉 Dodonpa</h3>
+                            <span class="tech-cost">2 RK (Baixo)</span>
+                        </div>
+                        <div class="tech-stats">
+                            <span>Mestre Shen</span> &bull; <span>Ofensiva</span> &bull; <span>Teste: [TEC]</span>
+                        </div>
+                        <p style="font-size: 0.85rem;">Feixe perfurante rápido. Dano base 12 por sucesso. Efeito
+                            Perfuração: ignora metade do [VIGOR] (redução de dano) do inimigo.</p>
+                    </div>
+
+                    <!-- Kikoho -->
+                    <div class="card tech-card" data-searchable data-mestre="shen" data-tipo="ofensiva"
+                        data-custo="proibido" style="--tech-border: #e74c3c;">
+                        <div class="card-header-with-badge">
+                            <h3 class="card-title">📐 Kikoho</h3>
+                            <span class="tech-cost">10 RK (Proibido)</span>
+                        </div>
+                        <div class="tech-stats">
+                            <span>Mestre Shen</span> &bull; <span>Ofensiva</span> &bull; <span>Teste: [TEC]</span>
+                        </div>
+                        <p style="font-size: 0.85rem;">Canhão Vital. Dano base 30 por sucesso em área imensa. O usuário
+                            perde PV proporcional ao dano causado devido ao risco de colapso físico.</p>
+                    </div>
+
+                    <!-- Taiyoken -->
+                    <div class="card tech-card" data-searchable data-mestre="tenshinhan" data-tipo="controle"
+                        data-custo="baixo" style="--tech-border: #2ecc71;">
+                        <div class="card-header-with-badge">
+                            <h3 class="card-title">☀️ Taiyoken</h3>
+                            <span class="tech-cost">2 RK (Baixo)</span>
+                        </div>
+                        <div class="tech-stats">
+                            <span>Tenshinhan</span> &bull; <span>Controle</span> &bull; <span>Teste: [TEC] vs
+                                [INS]</span>
+                        </div>
+                        <p style="font-size: 0.85rem;">Solar Flare. Se vencer, o alvo fica cego (Stun) por 1 rodada.
+                            Inimigos cegos não podem reagir (bloquear ou esquivar).</p>
+                    </div>
+
+                    <!-- Shishin no Ken -->
+                    <div class="card tech-card" data-searchable data-mestre="tenshinhan" data-tipo="suporte"
+                        data-custo="medio" style="--tech-border: #f39c12;">
+                        <div class="card-header-with-badge">
+                            <h3 class="card-title">👥 Shishin no Ken</h3>
+                            <span class="tech-cost">5 RK (Médio)</span>
+                        </div>
+                        <div class="tech-stats">
+                            <span>Tenshinhan</span> &bull; <span>Suporte</span> &bull; <span>Teste: Especial</span>
+                        </div>
+                        <p style="font-size: 0.85rem;">Técnica dos 4 Corpos. Divide-se em 4 clones. Ganha +2 PA por
+                            turno, mas seu [VIGOR] e [PODER] são divididos por 4 enquanto ativa.</p>
+                    </div>
+
+                    <!-- Rougafufuken -->
+                    <div class="card tech-card" data-searchable data-mestre="yamcha" data-tipo="ofensiva"
+                        data-custo="baixo" style="--tech-border: #2ecc71;">
+                        <div class="card-header-with-badge">
+                            <h3 class="card-title">🐺 Rougafufuken</h3>
+                            <span class="tech-cost">2 RK (Baixo)</span>
+                        </div>
+                        <div class="tech-stats">
+                            <span>Yamcha</span> &bull; <span>Combo Físico</span> &bull; <span>Teste: [POD]</span>
+                        </div>
+                        <p style="font-size: 0.85rem;">Punho do Lobo. Sequência de golpes corporais rápidos. Adiciona
+                            seu valor bruto de [VELOCIDADE] como dados adicionais na rolagem de acerto.</p>
+                    </div>
+
+                    <!-- Sokidan -->
+                    <div class="card tech-card" data-searchable data-mestre="yamcha" data-tipo="ofensiva"
+                        data-custo="medio" style="--tech-border: #f39c12;">
+                        <div class="card-header-with-badge">
+                            <h3 class="card-title">🔮 Sokidan</h3>
+                            <span class="tech-cost">4 RK (Médio)</span>
+                        </div>
+                        <div class="tech-stats">
+                            <span>Yamcha</span> &bull; <span>Ofensiva</span> &bull; <span>Teste: [TEC]</span>
+                        </div>
+                        <p style="font-size: 0.85rem;">Esfera Controlada. Rola o acerto com Vantagem. Se o inimigo
+                            esquivar, você pode gastar 1 PA para mudar o curso e atacar novamente.</p>
+                    </div>
+
+                    <!-- Kaioken -->
+                    <div class="card tech-card" data-searchable data-mestre="kaioh-norte" data-tipo="transformacao"
+                        data-custo="baixo" style="--tech-border: #2ecc71;">
+                        <div class="card-header-with-badge">
+                            <h3 class="card-title">🔴 Kaioken</h3>
+                            <span class="tech-cost">2 RK/rod. (Baixo)</span>
+                        </div>
+                        <div class="tech-stats">
+                            <span>Senhor Kaioh</span> &bull; <span>Transformação</span> &bull; <span>Teste: [VIG]</span>
+                        </div>
+                        <p style="font-size: 0.85rem;">Aumenta seu multiplicador de Output (Nível Oculto) em +1. Cada
+                            rodada consecutiva aumenta a DF de Vigor para manter. Falhar causa exaustão e dano interno.
+                        </p>
+                    </div>
+
+                    <!-- Genki Dama -->
+                    <div class="card tech-card" data-searchable data-mestre="kaioh-norte" data-tipo="final"
+                        data-custo="proibido" style="--tech-border: #e74c3c;">
+                        <div class="card-header-with-badge">
+                            <h3 class="card-title">🌐 Genki Dama</h3>
+                            <span class="tech-cost">Todo o Ki (Final)</span>
+                        </div>
+                        <div class="tech-stats">
+                            <span>Senhor Kaioh</span> &bull; <span>Final</span> &bull; <span>Teste: [TEC]</span>
+                        </div>
+                        <p style="font-size: 0.85rem;">Requer 3 turnos canalizando. Dano base 50 por sucesso. Ignora
+                            defesas especiais e habilidades passivas de seres de alinhamento Maligno.</p>
+                    </div>
+
+                    <!-- Impacto Pesado -->
+                    <div class="card tech-card" data-searchable data-mestre="kaioh-sul" data-tipo="ofensiva"
+                        data-custo="baixo" style="--tech-border: #2ecc71;">
+                        <div class="card-header-with-badge">
+                            <h3 class="card-title">🏋️ Impacto Pesado</h3>
+                            <span class="tech-cost">2 RK (Baixo)</span>
+                        </div>
+                        <div class="tech-stats">
+                            <span>Kaioh do Sul</span> &bull; <span>Físico</span> &bull; <span>Teste: [POD]</span>
+                        </div>
+                        <p style="font-size: 0.85rem;">Dano base 15 por sucesso. Oponente é arremessado longe e sofre
+                            penalidade de -2 em [VELOCIDADE] por 2 rodadas devido à gravidade fictícia.</p>
+                    </div>
+
+                    <!-- Paralisia Psíquica -->
+                    <div class="card tech-card" data-searchable data-mestre="kaioshin" data-tipo="controle"
+                        data-custo="medio" style="--tech-border: #f39c12;">
+                        <div class="card-header-with-badge">
+                            <h3 class="card-title">🌀 Paralisia Psíquica</h3>
+                            <span class="tech-cost">4 RK (Médio)</span>
+                        </div>
+                        <div class="tech-stats">
+                            <span>Kaioshin (Shin)</span> &bull; <span>Controle</span> &bull; <span>Teste: [TEC] vs
+                                [POD]</span>
+                        </div>
+                        <p style="font-size: 0.85rem;">Paralisa o oponente enquanto você mantiver a concentração (gasto
+                            de 1 PA/turno). Alvos normais possuem Desvantagem no teste para resistir.</p>
+                    </div>
+
+                    <!-- Kiai -->
+                    <div class="card tech-card" data-searchable data-mestre="kaioshin" data-tipo="defensiva"
+                        data-custo="baixo" style="--tech-border: #2ecc71;">
+                        <div class="card-header-with-badge">
+                            <h3 class="card-title">🌬️ Kiai</h3>
+                            <span class="tech-cost">2 RK (Baixo)</span>
+                        </div>
+                        <div class="tech-stats">
+                            <span>Kaioshin (Shin)</span> &bull; <span>Defensivo / Reação</span> &bull; <span>Teste:
+                                [TEC]</span>
+                        </div>
+                        <p style="font-size: 0.85rem;">Sopro Invisível. Onda de choque capaz de defletir rajadas de Ki
+                            de baixo custo e afastar oponentes sem testes de colisão complexos.</p>
+                    </div>
+
+                    <!-- Despertar de Potencial -->
+                    <div class="card tech-card" data-searchable data-mestre="ro-kaioshin" data-tipo="suporte"
+                        data-custo="proibido" style="--tech-border: #e74c3c;">
+                        <div class="card-header-with-badge">
+                            <h3 class="card-title">👴 Despertar de Potencial</h3>
+                            <span class="tech-cost">Ritual (Proibido)</span>
+                        </div>
+                        <div class="tech-stats">
+                            <span>Ro Kaioshin</span> &bull; <span>Suporte</span> &bull; <span>Efeito Fixo</span>
+                        </div>
+                        <p style="font-size: 0.85rem;">Ritual realizado fora de combate. Aumenta permanentemente o Nível
+                            Oculto (Multiplicador de Output) do alvo em +2. Válido uma única vez por guerreiro.</p>
+                    </div>
+
+                    <!-- Magia de Selamento -->
+                    <div class="card tech-card" data-searchable data-mestre="ro-kaioshin" data-tipo="controle"
+                        data-custo="medio" style="--tech-border: #f39c12;">
+                        <div class="card-header-with-badge">
+                            <h3 class="card-title">🔒 Magia de Selamento</h3>
+                            <span class="tech-cost">5 RK (Médio)</span>
+                        </div>
+                        <div class="tech-stats">
+                            <span>Ro Kaioshin</span> &bull; <span>Controle</span> &bull; <span>Teste: [TEC]</span>
+                        </div>
+                        <p style="font-size: 0.85rem;">Impede mecanicamente o oponente de utilizar transformações, bônus
+                            de status ou carregar Ki por 1d4 rodadas inteiras.</p>
+                    </div>
+
+                    <!-- Kienzan (Kuririn) -->
+                    <div class="card tech-card" data-searchable data-mestre="kuririn" data-tipo="ofensiva"
+                        data-custo="medio" style="--tech-border: #3498db;">
+                        <div class="card-header-with-badge">
+                            <h3 class="card-title">💠 Kienzan</h3>
+                            <span class="tech-cost">4 RK (Médio)</span>
+                        </div>
+                        <div class="tech-stats">
+                            <span>Kuririn</span> &bull; <span>Ofensiva</span> &bull; <span>Teste: [TEC]</span>
+                        </div>
+                        <p style="font-size: 0.85rem;">Disco de energia cortante lançado em alta velocidade. Causa dano
+                            base 12 por sucesso com efeito de <strong>Perfuração</strong> (ignora metade do VIGOR do
+                            alvo). Se o alvo não esquivar, sofre <strong>Sangramento</strong> (perde 2 PV por rodada por
+                            3 rodadas).</p>
+                    </div>
+
+                    <!-- Instinto Superior Presságio (Auto-Didatismo) -->
+                    <div class="card tech-card" data-searchable data-mestre="auto-didatismo" data-tipo="transformacao"
+                        data-custo="proibido" style="--tech-border: #bdc3c7;">
+                        <div class="card-header-with-badge">
+                            <h3 class="card-title">🌫️ Instinto Superior Preságio</h3>
+                            <span class="tech-cost">6 RK (Proibido)</span>
+                        </div>
+                        <div class="tech-stats">
+                            <span>Auto-Didatismo</span> &bull; <span>Transformação</span> &bull; <span>Efeito
+                                Passivo</span>
+                        </div>
+                        <p style="font-size: 0.85rem;">Estágio inicial do Instinto Superior. O corpo começa a reagir
+                            <em>antes</em> da consciência processar o perigo. Reações de Esquiva custam <strong>-1
+                                PA</strong>. Uma vez por rodada, pode rolar [INS] como reação gratuita contra o primeiro
+                            ataque recebido.
+                        </p>
+                    </div>
+
+                    <!-- Instinto Superior Completo (Auto-Didatismo) -->
+                    <div class="card tech-card" data-searchable data-mestre="auto-didatismo" data-tipo="transformacao"
+                        data-custo="proibido" style="--tech-border: #ecf0f1;">
+                        <div class="card-header-with-badge">
+                            <h3 class="card-title">⚪ Instinto Superior Completo</h3>
+                            <span class="tech-cost">10 RK (Proibido)</span>
+                        </div>
+                        <div class="tech-stats">
+                            <span>Auto-Didatismo</span> &bull; <span>Transformação</span> &bull; <span>Efeito
+                                Passivo</span>
+                        </div>
+                        <p style="font-size: 0.85rem;">O corpo age em perfeita sincronia sem a interferência da mente
+                            consciente. Esquivas não consomem PA. Ao esquivar com 3+ sucessos, realiza um
+                            <strong>Z-Vanish automático</strong> (contra-ataque imediato sem custo de reação). Imune a
+                            <em>ataques de surpresa</em>. <strong>Requisito:</strong> Instinto Superior Preságio
+                            dominado.
+                        </p>
+                    </div>
+
+                    <!-- Ultra-Instinto (Auto-Didatismo) -->
+                    <div class="card tech-card" data-searchable data-mestre="auto-didatismo" data-tipo="transformacao"
+                        data-custo="proibido"
+                        style="--tech-border: #ffffff; box-shadow: 0 0 18px rgba(255,255,255,0.15);">
+                        <div class="card-header-with-badge">
+                            <h3 class="card-title">✨ Ultra-Instinto</h3>
+                            <span class="tech-cost">∞ RK (Lendário)</span>
+                        </div>
+                        <div class="tech-stats">
+                            <span>Auto-Didatismo</span> &bull; <span>Transformação</span> &bull; <span>Efeito
+                                Supremo</span>
+                        </div>
+                        <p style="font-size: 0.85rem;"><strong>🔐 Requer:</strong> <em>[Secreto]</em> + Instinto
+                            Superior Completo dominado. O guerreiro transcende a existência física. Não pode ser
+                            <strong>paralisado, surpreendido ou selado</strong>. Esquivas ganham +3 sucessos
+                            automáticos. Ataques também são movidos pelo instinto (+2 dados em [POD] e [TEC]
+                            simultaneamente). Aura branca cristalina — inimigos perdem 1 RK por rodada apenas pela
+                            presença.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ABA 4: PROGRESSÃO -->
+            <div id="tab-progressao" class="tab-panel">
+                <h2 class="section-title" data-searchable>Progressão de Nível & Treinamento</h2>
+
+                <div class="progression-split">
+                    <!-- Niveis Interativos -->
+                    <div class="card" id="prog-level-calc" data-searchable>
+                        <div class="card-header-with-badge">
+                            <h3 class="card-title">📈 Tabela de Custo por Nível</h3>
+                            <span class="badge">NÍVEL 1 AO 30</span>
+                        </div>
+                        <p style="margin-bottom: 1rem;">Selecione ou insira um nível para calcular dinamicamente o custo
+                            de PT (Pontos de Treino) necessários para avançar.</p>
+
+                        <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1.5rem;">
+                            <div style="flex: 1;">
+                                <label class="form-label">Nível Atual do Personagem:</label>
+                                <input type="number" id="calc-level-input" min="1" max="29" value="1"
+                                    class="form-input-text" oninput="calculateLevelCost(this.value)">
+                            </div>
+                            <div
+                                style="flex: 1.5; background: rgba(255, 45, 45, 0.06); padding: 1rem; border-radius: 8px; border: 1px solid rgba(255, 45, 45, 0.25);">
+                                <span class="form-label" style="margin-bottom: 0;">Custo para Avançar:</span>
+                                <span id="calc-level-result"
+                                    style="font-size: 1.4rem; font-weight: bold; color: var(--color-ki-gold); font-family: var(--font-mono);">10
+                                    PT</span>
+                            </div>
+                        </div>
+
+                        <div class="table-container" style="max-height: 300px; overflow-y: auto;">
+                            <table id="level-cost-table">
+                                <thead>
+                                    <tr>
+                                        <th>Nível Atual</th>
+                                        <th>Custo para Próximo</th>
+                                        <th>PT Acumulados Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- JS Auto Populated -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Beneficios e Regras -->
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <div class="card" id="prog-benefits" data-searchable>
+                            <h3 class="card-title">🎁 Benefícios ao Subir de Nível</h3>
+                            <p style="font-size: 0.9rem; margin-top: 0.5rem;">Toda vez que você avança de nível marcial,
+                                você ganha permanentemente:</p>
+
+                            <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem;">
+                                <div class="preview-attr-item">
+                                    <span>Aumento de Atributo</span>
+                                    <span class="badge">+2 PONTOS</span>
+                                </div>
+                                <p class="subtext" style="padding-left: 0.5rem;">Distribua livremente em seus Atributos
+                                    Base.</p>
+
+                                <div class="preview-attr-item">
+                                    <span>Aumento de Recursos</span>
+                                    <span class="badge">PROPORCIONAL</span>
+                                </div>
+                                <ul style="font-size: 0.8rem; margin-left: 1.5rem; color: var(--color-soft-text);">
+                                    <li>+10 Pontos de Vida (PV) máximos por ponto de VIGOR adicionado.</li>
+                                    <li>+5 Reserva de Ki (RK) máxima por ponto de TÉCNICA adicionado.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card" id="prog-pt-sources" data-searchable>
+                            <h3 class="card-title">🏋️ Como Ganhar Pontos de Treino (PT)</h3>
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Origem / Feito</th>
+                                            <th>Recompensa de PT</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Missão/Combate Vencido</strong></td>
+                                            <td>5 a 15 PT (Dificuldade do Oponente)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Descanso / Sala do Tempo</strong></td>
+                                            <td>Fixo por período (Mestre)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Zenkai (Saiyajin)</strong></td>
+                                            <td>Ajuste secreto de Output pelo Mestre</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TIMELINE MARCOS DE PROGRESSÃO -->
+                <div class="card" id="prog-milestones" data-searchable style="margin-top: 2rem;">
+                    <h3 class="card-title">📅 Linha de Marcos de Nível (Milestones)</h3>
+                    <p class="subtext">Desbloqueios estratégicos e estruturais concedidos conforme você expande o seu
+                        poder.</p>
+
+                    <div class="timeline-horizontal">
+                        <div class="timeline-step">
+                            <div class="timeline-node"></div>
+                            <div class="timeline-title">A cada 2 Níveis</div>
+                            <div class="timeline-desc">Novas Técnicas de Ki ou Amplificações de Aura.</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="timeline-node"></div>
+                            <div class="timeline-title">A cada 5 Níveis</div>
+                            <div class="timeline-desc"><strong>+1 Ponto de Ação (PA)</strong> permanente em combate.
+                            </div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="timeline-node"></div>
+                            <div class="timeline-title">Fim de Saga</div>
+                            <div class="timeline-desc">Desbloqueio de <strong>Transformações</strong> de espécie.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ABA 5: TRANSFORMAÇÕES -->
+            <div id="tab-transformacoes" class="tab-panel">
+                <h2 class="section-title">
+                    🔥 Transformações por Raça
+                    <span class="badge badge-cyan">100 Formas · 5 Linhagens</span>
+                </h2>
+
+                <p class="subtext" style="margin-bottom: 1.5rem; font-size: 0.95rem;" data-searchable>
+                    Cada raça possui 3 linhagens de transformação com até 7 estágios cada,
+                    totalizando 20 formas por espécie. Toda transformação multiplica o
+                    <strong>Dano Final</strong> (já considerando o Nível Oculto) e altera seu
+                    <strong>PV Máximo</strong> temporariamente. Ao destransformar, o dano
+                    proporcional sofrido na forma ativa é convertido e aplicado ao seu PV da
+                    forma base — podendo, em casos extremos, ser fatal.
+                </p>
+
+                <!-- Race Selector -->
+                <div class="transform-race-selector" id="transform-race-selector"></div>
+
+                <!-- Active Transformation Status Banner -->
+                <div class="transform-status-banner" id="transform-status-banner">
+                    <div class="transform-status-empty">
+                        Nenhuma transformação ativa. Escolha uma forma abaixo para calcular
+                        seu novo PV Máximo e efeitos de combate.
+                    </div>
+                </div>
+
+                <!-- De-transformation Calculator -->
+                <div class="detransform-panel" data-searchable>
+                    <div class="detransform-title">⚠ Calculadora de Destransformação</div>
+                    <div class="detransform-desc">
+                        Informe o dano sofrido <strong>enquanto transformado</strong>. O sistema
+                        calcula a proporção desse dano em relação ao seu PV Máximo na forma
+                        ativa, e converte essa mesma proporção para o seu PV Máximo na forma
+                        base — aplicando o resultado ao seu PV atual da forma base.
+                    </div>
+                    <div class="detransform-grid">
+                        <div class="detransform-field">
+                            <label for="dt-pv-base-max">PV Máximo (Forma Base)</label>
+                            <input type="number" id="dt-pv-base-max" min="1" value="50">
+                        </div>
+                        <div class="detransform-field">
+                            <label for="dt-pv-base-atual">PV Atual (Forma Base, antes de transformar)</label>
+                            <input type="number" id="dt-pv-base-atual" min="0" value="50">
+                        </div>
+                        <div class="detransform-field">
+                            <label for="dt-pv-transformado-atual">PV Atual na Forma Transformada</label>
+                            <input type="number" id="dt-pv-transformado-atual" min="0" value="0" disabled>
+                        </div>
+                        <div class="detransform-field">
+                            <label for="dt-dano-sofrido">Dano Sofrido (Forma Transformada)</label>
+                            <input type="number" id="dt-dano-sofrido" min="0" value="0">
+                        </div>
+                    </div>
+
+                    <div class="detransform-result" id="detransform-result">
+                        <span class="detransform-result-label">Resultado ao Destransformar</span>
+                        <div class="detransform-result-value" id="detransform-result-value">
+                            Selecione uma transformação para calcular.
+                        </div>
+                        <div class="detransform-formula-note" id="detransform-formula-note"></div>
+                    </div>
+                </div>
+
+                <!-- Branches Grid (rendered by JS based on selected race) -->
+                <div class="transform-branches-grid" id="transform-branches-grid"></div>
+            </div>
+
+            <!-- ABA 6: MINHA FICHA -->
+            <div id="tab-ficha" class="tab-panel">
+                <h2 class="section-title">Minha Ficha de Guerreiro</h2>
+
+                <div class="builder-layout">
+                    <!-- FORM STEPS -->
+                    <div>
+                        <!-- Steps Nav -->
+                        <div class="steps-nav">
+                            <button class="step-nav-btn active" id="btn-step-1" onclick="switchStep(1)">1.
+                                Identidade</button>
+                            <button class="step-nav-btn" id="btn-step-2" onclick="switchStep(2)">2. Espécie</button>
+                            <button class="step-nav-btn" id="btn-step-3" onclick="switchStep(3)">3. Atributos</button>
+                            <button class="step-nav-btn" id="btn-step-4" onclick="switchStep(4)">4. Recursos</button>
+                            <button class="step-nav-btn" id="btn-step-5" onclick="switchStep(5)">5. Estilo</button>
+                        </div>
+
+                        <!-- STEP 1: IDENTIDADE -->
+                        <div class="step-panel active" id="step-panel-1">
+                            <h3 class="card-title" style="margin-bottom: 1.5rem;">Etapa 1: Identidade do Guerreiro</h3>
+
+                            <div class="form-group">
+                                <label class="form-label" for="char-name">Nome do Guerreiro:</label>
+                                <input type="text" id="char-name" class="form-input-text"
+                                    placeholder="Ex: Goku, Vegeta, Piccolo..."
+                                    oninput="updateFichaState('nome', this.value)">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="char-ki-type">Tipo de Ki (Aura):</label>
+                                <select id="char-ki-type" class="form-select" onchange="updateKiType(this.value)">
+                                    <option value="neutro">Neutro (Aura Clássica)</option>
+                                    <option value="benigno">Benigno / Purificado (Aura Dourada/Branca)</option>
+                                    <option value="maligno">Maligno (Aura Roxa/Negra)</option>
+                                    <option value="primitivo">Primitivo (Aura Esverdeada)</option>
+                                    <option value="divino">Divino (Aura Vermelha/Rosé)</option>
+                                    <option value="negativo">Negativo (Aura Invertida)</option>
+                                    <option value="magico">Mágico (Aura Cintilante)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="char-origin">Origem Narrativa / Antecedentes:</label>
+                                <textarea id="char-origin" class="form-textarea" rows="4"
+                                    placeholder="Escreva de onde vem sua força marcial..."
+                                    oninput="updateFichaState('origem', this.value)"></textarea>
+                            </div>
+
+                            <div class="step-footer-btns">
+                                <div></div>
+                                <button class="btn-primary" onclick="switchStep(2)">Próximo Passo &rarr;</button>
+                            </div>
+                        </div>
+
+                        <!-- STEP 2: ESPÉCIE -->
+                        <div class="step-panel" id="step-panel-2">
+                            <h3 class="card-title" style="margin-bottom: 1.5rem;">Etapa 2: Escolha a Espécie (Raça)</h3>
+
+                            <div class="breed-select-grid">
+                                <div class="breed-select-card selected" id="breed-card-humano"
+                                    onclick="selectBreed('humano')">
+                                    <div class="breed-select-icon">🧑</div>
+                                    <div class="breed-select-name">Humano</div>
+                                    <div
+                                        style="font-size: 0.75rem; color: var(--color-soft-text); margin-top: 0.25rem;">
+                                        +1 TEC, +1 INS</div>
+                                </div>
+                                <div class="breed-select-card" id="breed-card-saiyajin"
+                                    onclick="selectBreed('saiyajin')">
+                                    <div class="breed-select-icon">🐒</div>
+                                    <div class="breed-select-name">Saiyajin</div>
+                                    <div
+                                        style="font-size: 0.75rem; color: var(--color-soft-text); margin-top: 0.25rem;">
+                                        +1 POD, +1 VIG</div>
+                                </div>
+                                <div class="breed-select-card" id="breed-card-namekuseijin"
+                                    onclick="selectBreed('namekuseijin')">
+                                    <div class="breed-select-icon">👽</div>
+                                    <div class="breed-select-name">Namekuseijin</div>
+                                    <div
+                                        style="font-size: 0.75rem; color: var(--color-soft-text); margin-top: 0.25rem;">
+                                        +1 VIG, +1 INS</div>
+                                </div>
+                                <div class="breed-select-card" id="breed-card-androide"
+                                    onclick="selectBreed('androide')">
+                                    <div class="breed-select-icon">🤖</div>
+                                    <div class="breed-select-name">Androide</div>
+                                    <div
+                                        style="font-size: 0.75rem; color: var(--color-soft-text); margin-top: 0.25rem;">
+                                        +1 VEL, +1 POD</div>
+                                </div>
+                                <div class="breed-select-card" id="breed-card-glind" onclick="selectBreed('glind')">
+                                    <div class="breed-select-icon">😈</div>
+                                    <div class="breed-select-name">Glind</div>
+                                    <div
+                                        style="font-size: 0.75rem; color: var(--color-soft-text); margin-top: 0.25rem;">
+                                        +1 VEL, +1 TEC</div>
+                                </div>
+                            </div>
+
+                            <!-- Androide Variant Selector Toggle -->
+                            <div id="androide-variant-group" class="form-group"
+                                style="display: none; background: rgba(255, 45, 45, 0.06); padding: 1rem; border-radius: 8px; border: 1px solid rgba(255, 45, 45, 0.25); margin-top: 1rem;">
+                                <label class="form-label">Variante de Circuito Androide:</label>
+                                <select id="androide-variant" class="form-select"
+                                    onchange="updateAndroideVariant(this.value)">
+                                    <option value="Energia Infinita">Energia Infinita (+1 RK no início do turno)
+                                    </option>
+                                    <option value="Absorção de Energia">Absorção de Energia (Rouba RK bloqueando Ki)
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="highlight-box" style="margin-top: 1.5rem;" id="breed-info-box">
+                                <strong style="color: var(--color-ki-gold);" id="breed-info-title">Adaptabilidade
+                                    Marcial (Humano)</strong>
+                                <p style="font-size: 0.85rem; margin-top: 0.25rem;" id="breed-info-desc">Humanos
+                                    aprendem rápido. Custo de treino reduzido em 20% e permissão para rerrolar falhas em
+                                    testes de TÉCNICA uma vez por combate.</p>
+                            </div>
+
+                            <div class="step-footer-btns">
+                                <button class="btn-secondary" onclick="switchStep(1)">&larr; Voltar</button>
+                                <button class="btn-primary" onclick="switchStep(3)">Próximo Passo &rarr;</button>
+                            </div>
+                        </div>
+
+                        <!-- STEP 3: ATRIBUTOS -->
+                        <div class="step-panel" id="step-panel-3">
+                            <h3 class="card-title" style="margin-bottom: 1rem;">Etapa 3: Distribuição de Atributos</h3>
+
+                            <div class="point-buy-header">
+                                <div>
+                                    <span class="form-label" style="margin-bottom: 0;">Sistema de Point Buy (Compra de
+                                        Pontos):</span>
+                                    <p style="font-size: 0.8rem; color: var(--color-soft-text);">Todos os atributos
+                                        começam com 1 ponto + bônus de espécie. Limite de 5 por atributo.</p>
+                                </div>
+                                <div class="points-indicator" id="points-indicator">Pontos restantes: 12</div>
+                            </div>
+
+                            <div id="buy-attributes-list">
+                                <!-- POD -->
+                                <div class="attr-adjust-row">
+                                    <div class="attr-adjust-info">
+                                        <div class="attr-adjust-label" style="--attr-color: var(--color-pod);">
+                                            PODER (POD)
+                                            <span class="attr-adjust-bonus-tag" id="bonus-tag-pod"
+                                                style="display: none;">+1 Raça</span>
+                                        </div>
+                                        <p class="subtext" style="font-size: 0.8rem;">Dano físico e força de impacto</p>
+                                    </div>
+                                    <div class="attr-adjust-controls">
+                                        <button class="btn-adjust" onclick="adjustAttribute('pod', -1)">&minus;</button>
+                                        <span class="attr-adjust-value" id="val-buy-pod">1</span>
+                                        <button class="btn-adjust" onclick="adjustAttribute('pod', 1)">&plus;</button>
+                                    </div>
+                                </div>
+                                <!-- VEL -->
+                                <div class="attr-adjust-row">
+                                    <div class="attr-adjust-info">
+                                        <div class="attr-adjust-label" style="--attr-color: var(--color-vel);">
+                                            VELOCIDADE (VEL)
+                                            <span class="attr-adjust-bonus-tag" id="bonus-tag-vel"
+                                                style="display: none;">+1 Raça</span>
+                                        </div>
+                                        <p class="subtext" style="font-size: 0.8rem;">PA por rodada e iniciativa</p>
+                                    </div>
+                                    <div class="attr-adjust-controls">
+                                        <button class="btn-adjust" onclick="adjustAttribute('vel', -1)">&minus;</button>
+                                        <span class="attr-adjust-value" id="val-buy-vel">1</span>
+                                        <button class="btn-adjust" onclick="adjustAttribute('vel', 1)">&plus;</button>
+                                    </div>
+                                </div>
+                                <!-- TEC -->
+                                <div class="attr-adjust-row">
+                                    <div class="attr-adjust-info">
+                                        <div class="attr-adjust-label" style="--attr-color: var(--color-tec);">
+                                            TÉCNICA (TEC)
+                                            <span class="attr-adjust-bonus-tag" id="bonus-tag-tec"
+                                                style="display: none;">+1 Raça</span>
+                                        </div>
+                                        <p class="subtext" style="font-size: 0.8rem;">Dano de Ki e Reserva de Energia
+                                        </p>
+                                    </div>
+                                    <div class="attr-adjust-controls">
+                                        <button class="btn-adjust" onclick="adjustAttribute('tec', -1)">&minus;</button>
+                                        <span class="attr-adjust-value" id="val-buy-tec">1</span>
+                                        <button class="btn-adjust" onclick="adjustAttribute('tec', 1)">&plus;</button>
+                                    </div>
+                                </div>
+                                <!-- VIG -->
+                                <div class="attr-adjust-row">
+                                    <div class="attr-adjust-info">
+                                        <div class="attr-adjust-label" style="--attr-color: var(--color-vig);">
+                                            VIGOR (VIG)
+                                            <span class="attr-adjust-bonus-tag" id="bonus-tag-vig"
+                                                style="display: none;">+1 Raça</span>
+                                        </div>
+                                        <p class="subtext" style="font-size: 0.8rem;">Vida máxima e bloqueios</p>
+                                    </div>
+                                    <div class="attr-adjust-controls">
+                                        <button class="btn-adjust" onclick="adjustAttribute('vig', -1)">&minus;</button>
+                                        <span class="attr-adjust-value" id="val-buy-vig">1</span>
+                                        <button class="btn-adjust" onclick="adjustAttribute('vig', 1)">&plus;</button>
+                                    </div>
+                                </div>
+                                <!-- INS -->
+                                <div class="attr-adjust-row">
+                                    <div class="attr-adjust-info">
+                                        <div class="attr-adjust-label" style="--attr-color: var(--color-ins);">
+                                            INSTINTO (INS)
+                                            <span class="attr-adjust-bonus-tag" id="bonus-tag-ins"
+                                                style="display: none;">+1 Raça</span>
+                                        </div>
+                                        <p class="subtext" style="font-size: 0.8rem;">Esquivas e percepção de Ki</p>
+                                    </div>
+                                    <div class="attr-adjust-controls">
+                                        <button class="btn-adjust" onclick="adjustAttribute('ins', -1)">&minus;</button>
+                                        <span class="attr-adjust-value" id="val-buy-ins">1</span>
+                                        <button class="btn-adjust" onclick="adjustAttribute('ins', 1)">&plus;</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="step-footer-btns">
+                                <button class="btn-secondary" onclick="switchStep(2)">&larr; Voltar</button>
+                                <button class="btn-primary" id="btn-next-step-3" onclick="switchStep(4)">Próximo Passo
+                                    &rarr;</button>
+                            </div>
+                        </div>
+
+                        <!-- STEP 4: RECURSOS -->
+                        <div class="step-panel" id="step-panel-4">
+                            <h3 class="card-title" style="margin-bottom: 1.5rem;">Etapa 4: Recursos Vitais e Rendimento
+                            </h3>
+
+                            <p style="font-size: 0.9rem; margin-bottom: 1.5rem;">Seus recursos vitais são calculados em
+                                tempo real com base nos Atributos da etapa anterior:</p>
+
+                            <div
+                                style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                                <div class="attr-card" style="--attr-color: var(--color-vig)">
+                                    <div class="attr-sigla" id="calc-ficha-pv">20</div>
+                                    <div class="attr-name">PV Máximos</div>
+                                    <div class="attr-desc" style="font-size: 0.8rem; margin-top: 0.25rem;">(Vigor
+                                        &times; 10)</div>
+                                </div>
+                                <div class="attr-card" style="--attr-color: var(--color-tec)">
+                                    <div class="attr-sigla" id="calc-ficha-rk">5</div>
+                                    <div class="attr-name">Reserva de Ki Máxima</div>
+                                    <div class="attr-desc" style="font-size: 0.8rem; margin-top: 0.25rem;">(Técnica
+                                        &times; 5)</div>
+                                </div>
+                            </div>
+
+                            <div class="highlight-box">
+                                <strong style="color: var(--color-ki-gold);">Multiplicador Inicial (Nível 1):</strong>
+                                <p style="font-size: 0.85rem; margin-top: 0.25rem;">Todo guerreiro inicia no Nível 1,
+                                    possuindo multiplicador de output de dano <strong>&times;1</strong>. O nível aumenta
+                                    ao longo da campanha conforme o treinamento.</p>
+                            </div>
+
+                            <div class="step-footer-btns">
+                                <button class="btn-secondary" onclick="switchStep(3)">&larr; Voltar</button>
+                                <button class="btn-primary" onclick="switchStep(5)">Próximo Passo &rarr;</button>
+                            </div>
+                        </div>
+
+                        <!-- STEP 5: ESTILO E TÉCNICAS -->
+                        <div class="step-panel" id="step-panel-5">
+                            <h3 class="card-title" style="margin-bottom: 1.5rem;">Etapa 5: Estilo de Luta</h3>
+
+                            <div class="form-group">
+                                <label class="form-label" for="char-style">Escola / Estilo de Combate:</label>
+                                <select id="char-style" class="form-select" onchange="updateEstilo(this.value)">
+                                    <option value="Tartaruga">Estilo Tartaruga (Kame)</option>
+                                    <option value="Garça">Estilo Garça (Tsuru)</option>
+                                    <option value="Autodidata">Autodidata / Primitivo</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group"
+                                style="background: rgba(42, 42, 74, 0.2); padding: 1rem; border-radius: 8px; border: 1px solid var(--color-border);">
+                                <span class="form-label">Técnica Concedida pela Escola:</span>
+                                <strong id="school-tech-title"
+                                    style="color: var(--color-ki-gold); display: block; margin-top: 0.25rem;">Kamehameha</strong>
+                                <p id="school-tech-desc"
+                                    style="font-size: 0.8rem; color: var(--color-soft-text); margin-top: 0.25rem;">Feixe
+                                    de energia concentrado de médio custo (4 RK). Dano base 10/sucesso. Efeito explosivo
+                                    se carregado.</p>
+                            </div>
+
+                            <div class="form-group" style="margin-top: 1.5rem;">
+                                <label class="form-label" for="char-signature-tech">Técnica de Assinatura Gratuita
+                                    (Customizável):</label>
+                                <input type="text" id="char-signature-tech" class="form-input-text"
+                                    placeholder="Dê um nome para sua técnica própria..."
+                                    oninput="updateFichaState('tecnicaCustom', this.value)">
+                                <p class="subtext">Descreva um nome exclusivo para sua habilidade narrativa.</p>
+                            </div>
+
+                            <div class="step-footer-btns">
+                                <button class="btn-secondary" onclick="switchStep(4)">&larr; Voltar</button>
+                                <button class="btn-primary" onclick="exportPDF()">Exportar Ficha (PDF) 🖨️</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- LIVE PREVIEW CARD -->
+                    <div class="ficha-preview-wrapper">
+                        <div class="ficha-preview-card" id="ficha-preview">
+                            <div class="preview-header">
+                                <div>
+                                    <span class="preview-title">Ficha de Guerreiro</span>
+                                    <span
+                                        style="font-size: 0.75rem; color: var(--color-soft-text); display: block; font-family: var(--font-mono);">HIKARETEKU
+                                        RPG 3E</span>
+                                </div>
+                                <span class="badge" id="preview-badge-level">Nível 1 (&times;1)</span>
+                            </div>
+
+                            <div class="preview-row">
+                                <span class="preview-label">Nome:</span>
+                                <span class="preview-val" id="preview-val-nome">—————</span>
+                            </div>
+                            <div class="preview-row">
+                                <span class="preview-label">Espécie:</span>
+                                <span class="preview-val" id="preview-val-especie">Humano</span>
+                            </div>
+                            <div class="preview-row">
+                                <span class="preview-label">Aura de Ki:</span>
+                                <span class="preview-val" id="preview-val-ki">Neutro</span>
+                            </div>
+
+                            <div class="preview-divider"></div>
+
+                            <div class="preview-attrs">
+                                <div class="preview-attr-item">
+                                    <span class="preview-label" style="color: var(--color-pod);">POD</span>
+                                    <span class="preview-dots" id="dots-pod">●○○○○</span>
+                                </div>
+                                <div class="preview-attr-item">
+                                    <span class="preview-label" style="color: var(--color-vel);">VEL</span>
+                                    <span class="preview-dots" id="dots-vel">●○○○○</span>
+                                </div>
+                                <div class="preview-attr-item">
+                                    <span class="preview-label" style="color: var(--color-tec);">TEC</span>
+                                    <span class="preview-dots" id="dots-tec">●●○○○</span>
+                                </div>
+                                <div class="preview-attr-item">
+                                    <span class="preview-label" style="color: var(--color-vig);">VIG</span>
+                                    <span class="preview-dots" id="dots-vig">●○○○○</span>
+                                </div>
+                                <div class="preview-attr-item" style="grid-column: span 2;">
+                                    <span class="preview-label" style="color: var(--color-ins);">INS</span>
+                                    <span class="preview-dots" id="dots-ins">●●○○○</span>
+                                </div>
+                            </div>
+
+                            <div class="preview-divider"></div>
+
+                            <div class="preview-bars">
+                                <div class="preview-bar-box">
+                                    <div class="preview-bar-label">PONTOS DE VIDA</div>
+                                    <div class="preview-bar-val val-pv" id="preview-bar-pv">10/10</div>
+                                </div>
+                                <div class="preview-bar-box">
+                                    <div class="preview-bar-label">RESERVA DE KI</div>
+                                    <div class="preview-bar-val val-rk" id="preview-bar-rk">10/10</div>
+                                </div>
+                            </div>
+
+                            <div class="preview-divider"></div>
+
+                            <div class="preview-style-box">
+                                <div class="preview-row">
+                                    <span class="preview-label">Estilo:</span>
+                                    <span class="preview-val" id="preview-val-estilo">Tartaruga</span>
+                                </div>
+                                <div class="preview-row" style="margin-top: 0.25rem;">
+                                    <span class="preview-label">Escola:</span>
+                                    <span class="preview-val" id="preview-val-tecnica-escola">Kamehameha</span>
+                                </div>
+                                <div class="preview-row" style="margin-top: 0.25rem;">
+                                    <span class="preview-label">Assinatura:</span>
+                                    <span class="preview-val" id="preview-val-tecnica-assinatura">Nenhuma</span>
+                                </div>
+                            </div>
+
+                            <!-- Printing specific area (signature) -->
+                            <div class="print-signature-area">
+                                <div class="signature-line">Assinatura do Guerreiro</div>
+                                <div class="signature-line">Visto do Mestre da Campanha</div>
+                            </div>
+                        </div>
+
+                        <div class="export-btn-container">
+                            <button class="btn-primary"
+                                style="width: 100%; justify-content: center; gap: 0.5rem; background: var(--color-divine-cyan); color: var(--color-vacuum);"
+                                onclick="exportPDF()">
+                                <span>🖨️ Exportar Ficha para PDF / Imprimir</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+
+    <!-- ABA 7: FORJAR TÉCNICA -->
+    <div id="tab-forja" class="tab-panel">
+        <h2 class="section-title">🛠️ Forja de Técnicas Autorais</h2>
+
+        <div class="builder-layout forja-layout">
+            <!-- FORM FIELDS -->
+            <div>
+                <div class="step-panel active">
+                    <h3 class="card-title" style="margin-bottom: 1.5rem;">Forjar Nova Técnica</h3>
+
+                    <div class="form-group">
+                        <label class="form-label" for="tech-name">Nome da Técnica:</label>
+                        <input type="text" id="tech-name" class="form-input-text"
+                            placeholder="Ex: Galick Gun, Kienzan, Punho do Dragão..."
+                            oninput="updateForjaState('nome', this.value)">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="tech-description">Descrição Completa:</label>
+                        <textarea id="tech-description" class="form-textarea" rows="4"
+                            placeholder="Descreva a técnica como um todo (efeitos visuais, lore, mecânicas)..."
+                            oninput="updateForjaState('descricao', this.value)"></textarea>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label class="form-label" for="tech-natureza">Natureza:</label>
+                            <select id="tech-natureza" class="form-select" onchange="updateForjaNatureza(this.value)">
+                                <option value="fisica">Física</option>
+                                <option value="energia" selected>Energia</option>
+                                <option value="espiritual">Espiritual / Mental</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="tech-atributo">Atributo Chave:</label>
+                            <select id="tech-atributo" class="form-select"
+                                onchange="updateForjaState('atributo', this.value)">
+                                <!-- Populated via JS -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                        <div class="form-group">
+                            <label class="form-label" for="tech-custo-class">Custo (Classificação):</label>
+                            <select id="tech-custo-class" class="form-select"
+                                onchange="updateForjaCustoClass(this.value)">
+                                <option value="baixo">Baixo (1-2 RK)</option>
+                                <option value="medio" selected>Médio (3-5 RK)</option>
+                                <option value="proibido">Proibido (6+ RK)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="tech-custo-rk">Custo de RK Exato:</label>
+                            <input type="number" id="tech-custo-rk" class="form-input-text" min="1" value="4"
+                                oninput="updateForjaCustoRK(this.value)">
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label class="form-label" for="tech-efeito">Efeito Especial:</label>
+                        <select id="tech-efeito" class="form-select" onchange="updateForjaState('efeito', this.value)">
+                            <option value="nenhum" selected>Nenhum</option>
+                            <option value="perfuracao">Perfuração (Ignora metade do VIGOR, requer 1 t. carga)</option>
+                            <option value="explosao">Explosão (Causa 25% dano mesmo se o alvo esquivar)</option>
+                            <option value="paralisia">Paralisia (Se vencer, o alvo perde PA na rodada seguinte)</option>
+                            <option value="rastreador">Rastreador (Rola acerto com Vantagem)</option>
+                            <option value="multiplier">Multiplier (Aumenta temporariamente Nível Oculto)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LIVE PREVIEW CARD FOR FORJA -->
+            <div class="ficha-preview-wrapper">
+                <div class="ficha-preview-card" id="forja-preview"
+                    style="--tech-nature-color: var(--color-ki-gold); --tech-aura-glow: rgba(255, 107, 26, 0.2); border-color: var(--tech-nature-color); box-shadow: 0 0 15px var(--tech-aura-glow);">
+                    <div class="preview-header">
+                        <div>
+                            <span class="preview-title" id="preview-tech-title">Nova Técnica</span>
+                            <span id="preview-tech-nature-label"
+                                style="font-size: 0.75rem; color: var(--tech-nature-color); display: block; font-family: var(--font-mono); font-weight: bold; margin-top: 0.25rem;">ENERGIA</span>
+                        </div>
+                        <span class="badge" id="preview-tech-badge-custo">Médio Custo</span>
+                    </div>
+
+                    <div class="preview-row">
+                        <span class="preview-label">Atributo Chave:</span>
+                        <span class="preview-val" id="preview-tech-val-atributo">TÉCNICA [TEC]</span>
+                    </div>
+
+                    <div class="preview-row">
+                        <span class="preview-label">Custo Estimado:</span>
+                        <span class="preview-val" id="preview-tech-val-custo">4 + 1d4 RK</span>
+                    </div>
+
+                    <div class="preview-row">
+                        <span class="preview-label">Rendimento/Dano:</span>
+                        <span class="preview-val" id="preview-tech-val-dano">10 por sucesso</span>
+                    </div>
+
+                    <div class="preview-divider"></div>
+
+                    <div
+                        style="background: rgba(255, 255, 255, 0.03); padding: 0.75rem; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.05); margin-top: 0.5rem;">
+                        <span
+                            style="font-size: 0.75rem; color: var(--tech-nature-color); font-family: var(--font-mono); font-weight: bold; display: block; margin-bottom: 0.25rem;">EFEITO
+                            ESPECIAL:</span>
+                        <strong id="preview-tech-efeito-name"
+                            style="font-size: 0.9rem; display: block; color: var(--color-text);">Nenhum</strong>
+                        <p id="preview-tech-efeito-desc"
+                            style="font-size: 0.8rem; color: var(--color-soft-text); margin-top: 0.25rem;">Sem efeitos
+                            especiais adicionais.</p>
+                    </div>
+
+                    <div class="preview-divider"></div>
+
+                    <div style="margin-top: 0.5rem;">
+                        <span class="preview-label" style="display: block; margin-bottom: 0.25rem;">Descrição /
+                            Lore:</span>
+                        <p id="preview-tech-description"
+                            style="font-size: 0.8rem; color: var(--color-soft-text); line-height: 1.4; max-height: 120px; overflow-y: auto; white-space: pre-wrap; font-style: italic;">
+                            Escreva a descrição no formulário para detalhar sua técnica...</p>
+                    </div>
+
+                    <div class="print-signature-area">
+                        <div class="signature-line">Visto do Mestre da Campanha</div>
+                    </div>
+                </div>
+
+                <div class="export-btn-container" style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                    <button class="btn-primary"
+                        style="flex: 1; justify-content: center; gap: 0.5rem; background: transparent; border: 1px solid var(--color-border); color: var(--color-text);"
+                        onclick="exportTechTXT()">
+                        <span>💾 Exportar TXT</span>
+                    </button>
+                    <button class="btn-primary"
+                        style="flex: 1; justify-content: center; gap: 0.5rem; background: var(--color-ki-gold); color: var(--color-vacuum);"
+                        onclick="exportTechPDF()">
+                        <span>🖨️ Exportar PDF</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </main>
+    </div>
+
+    <!-- MODAL DE LOGIN SECRETO DO MESTRE -->
+    <div id="mestre-login-modal" class="modal-overlay" style="display: none;">
+        <div class="terminal-dialog">
+            <div class="terminal-header">
+                <span class="terminal-title">SYSTEM SECURE LOGIN v1.3</span>
+                <button class="terminal-close" onclick="closeMestreLogin()">&times;</button>
+            </div>
+            <div class="terminal-body">
+                <p class="terminal-prompt">Acesso restrito ao Diretor de Jogo (Mestre). Identifique-se.</p>
+                <div class="form-group" style="margin-top: 1rem;">
+                    <label class="form-label" for="mestre-pass-input">CHAVE DE CRIPTOGRAFIA:</label>
+                    <input type="password" id="mestre-pass-input" class="form-input-text terminal-input"
+                        placeholder="Digite a senha..." autocomplete="off">
+                </div>
+                <div id="mestre-login-msg" class="terminal-msg"></div>
+                <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1.5rem;">
+                    <button class="btn-secondary terminal-btn" onclick="closeMestreLogin()">ABORTAR</button>
+                    <button class="btn-primary terminal-btn btn-neon-green"
+                        onclick="validateMestrePassword()">AUTENTICAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SIMULADOR DO MESTRE (TELA SECUNDÁRIA) -->
+    <div id="mestre-container" style="display: none;">
+        <div class="mestre-layout-container">
+            <!-- COLUNA 1: BARRA LATERAL (GRUPOS DE INIMIGOS) -->
+            <aside class="mestre-sidebar">
+                <div class="sidebar-header">
+                    <span class="sidebar-title">📁 GRUPOS DE COMBATE</span>
+                </div>
+                <div class="sidebar-content">
+                    <!-- Formulário para Criar Grupo -->
+                    <div class="mestre-sidebar-widget">
+                        <label class="form-label" style="font-size: 0.75rem;">NOVO GRUPO:</label>
+                        <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
+                            <input type="text" id="group-new-name" class="form-input-text mestre-input-sm"
+                                placeholder="Ex: Patrulha X" style="flex: 1;">
+                            <button class="btn-primary mestre-btn-sm" onclick="mestreCreateGroup()">CRIAR</button>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <label class="form-label"
+                                style="font-size: 0.75rem; margin: 0; white-space: nowrap;">RECOMPENSA (PT):</label>
+                            <select id="group-new-reward" class="form-select mestre-select-sm" style="flex: 1;">
+                                <option value="1d4">1d4</option>
+                                <option value="1d6">1d6</option>
+                                <option value="1d8">1d8</option>
+                                <option value="1d10" selected>1d10</option>
+                                <option value="1d12">1d12</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Lista de Grupos -->
+                    <div id="mestre-groups-list" class="mestre-groups-scroll-area">
+                        <!-- Renderizado via JS -->
+                    </div>
+                </div>
+                <div class="sidebar-footer">
+                    <button class="btn-secondary mestre-btn-sm"
+                        style="width: 100%; border-color: rgba(255, 59, 48, 0.4); color: var(--color-pod);"
+                        onclick="logoutMestre()">SAIR DO SIMULADOR</button>
+                </div>
+            </aside>
+
+            <!-- COLUNA 2: CENTRO (CONTROLES E GERADOR) -->
+            <main class="mestre-main-grid">
+                <!-- LINHA SUPERIOR DO CENTRO: HEADER DO PAINEL -->
+                <header class="mestre-panel-header">
+                    <div class="mestre-header-left">
+                        <h2>SYSTEMA DE SIMULAÇÃO DO MESTRE</h2>
+                        <span class="badge badge-neon-green">STATUS: MONITORANDO</span>
+                    </div>
+                    <div class="mestre-header-right">
+                        <span class="system-time" id="mestre-system-time">0000-00-00 00:00:00</span>
+                    </div>
+                </header>
+
+                <div class="mestre-center-content">
+                    <!-- SUB-COLUNA ESQUERDA: GERADOR E COMANDOS -->
+                    <div class="mestre-controls-column">
+                        <!-- NAVEGAÇÃO DOS GERADORES -->
+                        <div class="mestre-tabs-nav" style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                            <button id="mestre-btn-gen-capanga" class="mestre-tab-btn active"
+                                onclick="switchMestreGenTab('capanga')">👾 CAPANGAS</button>
+                            <button id="mestre-btn-gen-boss" class="mestre-tab-btn"
+                                onclick="switchMestreGenTab('boss')">💀 BOSS / MINI-BOSS</button>
+                        </div>
+
+                        <!-- GERADOR DE INIMIGOS (CAPANGAS) -->
+                        <section id="mestre-gen-capanga" class="mestre-panel mestre-gen-panel active"
+                            style="margin-bottom: 1.5rem;">
+                            <h3 class="card-title">👾 GERADOR DE CAPANGAS</h3>
+                            <div class="form-group" style="margin-top: 1rem;">
+                                <label class="form-label" for="enemy-gen-name">Nome do Inimigo:</label>
+                                <input type="text" id="enemy-gen-name" class="form-input-text"
+                                    placeholder="Ex: Capanga da Gangue X">
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                                <div class="form-group">
+                                    <label class="form-label" for="enemy-gen-level">Nível (Multiplicador):</label>
+                                    <input type="number" id="enemy-gen-level" class="form-input-text" min="1" max="100"
+                                        value="1">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="enemy-gen-archetype">Arquétipo:</label>
+                                    <select id="enemy-gen-archetype" class="form-select">
+                                        <option value="marcial" selected>Marcial (+50% Dano Físico)</option>
+                                        <option value="estrategista">Estrategista (+50% Dano de KI)</option>
+                                        <option value="misto">Misto (+25% Ambos)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="btn-primary btn-neon-green"
+                                style="width: 100%; justify-content: center; margin-top: 1.5rem;"
+                                onclick="mestreGenerateEnemy()">
+                                <span>⚡ GERAR INIMIGO</span>
+                            </button>
+                        </section>
+
+                        <!-- GERADOR DE BOSSES E MINI-BOSSES -->
+                        <section id="mestre-gen-boss" class="mestre-panel mestre-gen-panel"
+                            style="margin-bottom: 1.5rem; display: none;">
+                            <h3 class="card-title">💀 GERADOR DE BOSSES</h3>
+                            <div class="form-group" style="margin-top: 1rem;">
+                                <label class="form-label" for="boss-gen-name">Nome do Chefe:</label>
+                                <input type="text" id="boss-gen-name" class="form-input-text"
+                                    placeholder="Ex: Freeza, Vegeta Grande Macaco">
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                                <div class="form-group">
+                                    <label class="form-label" for="boss-gen-type">Tipo de Ameaça:</label>
+                                    <select id="boss-gen-type" class="form-select">
+                                        <option value="miniboss">Mini-Boss (HP x2.0)</option>
+                                        <option value="boss" selected>Boss (HP x3.5 + Fase 2)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="boss-gen-level">Nível (Multiplicador):</label>
+                                    <input type="number" id="boss-gen-level" class="form-input-text" min="1" max="100"
+                                        value="5">
+                                </div>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                                <div class="form-group">
+                                    <label class="form-label" for="boss-gen-archetype">Arquétipo:</label>
+                                    <select id="boss-gen-archetype" class="form-select">
+                                        <option value="marcial" selected>Marcial (+75% Dano Físico)</option>
+                                        <option value="estrategista">Estrategista (+75% Dano de KI)</option>
+                                        <option value="misto">Misto (+40% Ambos)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="boss-gen-trait">Habilidade Passiva:</label>
+                                    <select id="boss-gen-trait" class="form-select">
+                                        <option value="furia" selected>Fase de Fúria (Dano +50% com HP < 30%)</option>
+                                        <option value="acoes">Ações Lendárias (+2 PA/rodada)</option>
+                                        <option value="barreira">Escudo de Ki (100 PV de Barreira)</option>
+                                        <option value="explosao">Explosão Suprema (Ki explode em 9 e 10)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-top: 1rem;">
+                                <label class="form-label" for="boss-gen-tech">Técnica Lendária Padrão:</label>
+                                <input type="text" id="boss-gen-tech" class="form-input-text"
+                                    placeholder="Ex: Supernova, Solar Kamehameha, Death Ball...">
+                            </div>
+                            <button class="btn-primary btn-neon-green"
+                                style="width: 100%; justify-content: center; margin-top: 1.5rem;"
+                                onclick="mestreGenerateBoss()">
+                                <span>🔥 CONVOCAR CHEFE</span>
+                            </button>
+                        </section>
+
+                        <!-- CONSOLE DE COMANDOS (DADOS E EVENTOS) -->
+                        <section class="mestre-panel">
+                            <h3 class="card-title">🎲 ROLAGEM E EVENTOS RÁPIDOS</h3>
+                            <div class="form-group" style="margin-top: 1rem;">
+                                <label class="form-label" for="mestre-dice-count">Quantidade de Dados (d10):</label>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <input type="number" id="mestre-dice-count" class="form-input-text" min="1" max="50"
+                                        value="5" style="flex: 1;">
+                                    <button class="btn-primary btn-neon-green" onclick="mestreRollDice()">ROLAR</button>
+                                </div>
+                            </div>
+                            <button class="btn-secondary"
+                                style="width: 100%; justify-content: center; margin-top: 1rem; border-color: var(--color-ki-gold); color: var(--color-ki-gold);"
+                                onclick="mestreGenerateEvent()">
+                                <span>🔮 GERAR EVENTO ALEATÓRIO</span>
+                            </button>
+                        </section>
+                    </div>
+
+                    <!-- SUB-COLUNA DIREITA: INIMIGOS ATIVOS -->
+                    <div class="mestre-enemies-column">
+                        <section class="mestre-panel flex-column-container"
+                            style="height: 100%; display: flex; flex-direction: column;">
+                            <h3 class="card-title">⚔️ INIMIGOS ATIVOS NO COMBATE</h3>
+                            <div id="mestre-enemies-list" class="mestre-enemies-scroll-area"
+                                style="flex: 1; overflow-y: auto; margin-top: 1rem; padding-right: 0.5rem;">
+                                <!-- Renderizado via JS -->
+                                <p class="empty-msg"
+                                    style="color: var(--color-soft-text); font-style: italic; text-align: center; margin-top: 2rem;">
+                                    Nenhum capanga ativo no combate.</p>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </main>
+
+            <!-- COLUNA 3: MONITOR DE LOGS (DIREITA) -->
+            <aside class="mestre-log-monitor">
+                <div class="monitor-header">
+                    <span class="monitor-title">📟 TERMINAL DE MONITORAMENTO</span>
+                    <button class="mestre-btn-clear" onclick="mestreClearLog()">LIMPAR</button>
+                </div>
+                <div id="mestre-console-output" class="monitor-log-output">
+                    <!-- Logs dynamically prepended -->
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- JS SCRIPTS -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>
